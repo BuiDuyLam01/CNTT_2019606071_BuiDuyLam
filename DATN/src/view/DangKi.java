@@ -45,7 +45,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import controller.connect_taiKhoan;
 import controller.connect_thongKe;
+import model.taiKhoan;
 import model.thongKe;
 
 import javax.swing.filechooser.FileFilter;
@@ -204,8 +206,9 @@ public class DangKi extends JFrame {
 					message.setSubject("Thông báo");
 					message.setText(maxacthuc);
 					Transport.send(message);
+					JOptionPane.showMessageDialog(null, "Mã xác thực đã được gửi về gmail của bạn. Vui lòng kiểm tra!");
 				} catch (Exception e2) {
-					System.out.println(""+e2);
+					JOptionPane.showMessageDialog(null, "Gmail không chính xác. Vui lòng nhập lại!");
 				}
 			}
 		});
@@ -256,43 +259,24 @@ public class DangKi extends JFrame {
 		btnDK = new JButton("Đăng ký");
 		btnDK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					// Lấy ảnh từ JLabel
-					ImageIcon icon = (ImageIcon) lblImage.getIcon();
-					Image image = icon.getImage();
-
-					// Chuyển đổi ảnh thành mảng byte
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					ImageIO.write((BufferedImage) image, "jpg", baos);
-					byte[] imageData = baos.toByteArray();
-
-					// Kết nối tới cơ sở dữ liệu
-					String url = "jdbc:mysql://localhost:3306/quanlithisinh";
-					String user = "root";
-					String password = "";
-					Connection conn = DriverManager.getConnection(url, user, password);
-
-					// Thực hiện truy vấn để lưu ảnh vào cơ sở dữ liệu
-					String sql = "INSERT INTO `quanlithisinh`.`taikhoan` (`MaThiSinh`, `HoVaTen`, `HinhAnh`, `MatKhau`, `Gmail`)\r\n"
-							+ "VALUES (?, ?, ?, ?, ?);";
-					PreparedStatement statement = conn.prepareStatement(sql);
-					statement.setString(1, txtMa.getText());
-					statement.setString(2, txtHVT.getText());
-					statement.setBytes(3, imageData);
-					statement.setString(4, txtPass.getText());
-					statement.setString(5, txtGmail.getText());
-					statement.executeUpdate();
-
-					// Đóng kết nối
-					statement.close();
-					conn.close();
-					
-		            JOptionPane.showMessageDialog(null, "Đăng kí thành công!");
-		            
-		        } catch (Exception ex) {
-		            ex.printStackTrace();
-		            JOptionPane.showMessageDialog(null, "Đăng kí thất bại!");
-		        }
+				
+				if(txtMXT.getText().equals(maxacthuc) && Integer.parseInt(txtTDT.getText()) > 22 && Integer.parseInt(txtDHB.getText()) > 5)
+				{
+					if(connect_taiKhoan.kiemtratontai(txtMa.getText()) == true) {
+						JOptionPane.showMessageDialog(null, "Thí sinh này đã đăng ký tài khoản!");
+					} else {
+						luu();
+						JOptionPane.showMessageDialog(null, "Đăng ký thành công!");
+						dispose();
+						HomeUser ah = new HomeUser(txtMa.getText());
+						ah.setLocationRelativeTo(null);
+						ah.setVisible(true);
+					}
+				} else if(Integer.parseInt(txtTDT.getText()) < 22 || Integer.parseInt(txtDHB.getText()) < 5) {
+					JOptionPane.showMessageDialog(null, "Điểm thi hoặc điểm học bạ không đủ điểm xét tuyển. Hẹn gặp lại bạn!");
+				} else {
+					JOptionPane.showMessageDialog(null, "Sai mã xác thực");
+				}
 				
 			}
 		});
@@ -376,6 +360,45 @@ public class DangKi extends JFrame {
 		txtUser.setBounds(361, 123, 253, 27);
 		panel_DN.add(txtUser);
 		txtUser.setColumns(10);
+	}
+	
+	public void luu() {
+		try {
+			// Lấy ảnh từ JLabel
+			ImageIcon icon = (ImageIcon) lblImage.getIcon();
+			Image image = icon.getImage();
+			// Chuyển đổi ảnh thành mảng byte
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write((BufferedImage) image, "jpg", baos);
+			byte[] imageData = baos.toByteArray();
+
+			// Kết nối tới cơ sở dữ liệu
+			String url = "jdbc:mysql://localhost:3306/quanlithisinh";
+			String user = "root";
+			String password = "";
+			Connection conn = DriverManager.getConnection(url, user, password);
+
+			// Thực hiện truy vấn để lưu ảnh vào cơ sở dữ liệu
+			String sql = "INSERT INTO `quanlithisinh`.`taikhoan` (`TenDangNhap`, `MaThiSinh`, `HoVaTen`, `HinhAnh`, `MatKhau`, `Gmail`, `Quyen`)\r\n"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, txtMa.getText());
+			statement.setString(2, txtMa.getText());
+			statement.setString(3, txtHVT.getText());
+			statement.setBytes(4, imageData);
+			statement.setString(5, txtPass.getText());
+			statement.setString(6, txtGmail.getText());
+			statement.setInt(7, 0);
+			statement.executeUpdate();
+
+			// Đóng kết nối
+			statement.close();
+			conn.close();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
 	}
 	
 }
