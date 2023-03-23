@@ -7,6 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.connect_taiKhoan;
+import model.taiKhoan;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -119,13 +122,16 @@ public class QuenMatKhau extends JFrame {
 		JButton btnXN = new JButton("Xác nhận");
 		btnXN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				taiKhoan tk = new taiKhoan();
+				tk.setMatKhau(txt_PassMoi.getText());
 				if(txt_PassMoi.getText().equals(maxacthuc))
 				{
+					connect_taiKhoan.DoiPass(tk, txtUser.getText());
 					JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Sai thông tin. Vui lòng kiểm tra lại !");
-						}
+				}
 			}
 		});
 		btnXN.setForeground(new Color(248, 248, 255));

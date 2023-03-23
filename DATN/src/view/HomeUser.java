@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.connect_taiKhoan;
+import model.taiKhoan;
+
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JMenu;
@@ -68,11 +72,15 @@ public class HomeUser extends JFrame {
 			}
 		});
 	}
+	
+	public HomeUser() {
+		
+	}
 
 	/**
 	 * Create the frame.
 	 */
-	public HomeUser() {
+	public HomeUser(String username) {
 		setTitle("TRANG CÁ NHÂN");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1448, 768);
@@ -642,7 +650,7 @@ public class HomeUser extends JFrame {
 		lblHVT.setBounds(57, 74, 90, 29);
 		panel1_3.add(lblHVT);
 		
-		JLabel lblNS = new JLabel("Năm sinh");
+		JLabel lblNS = new JLabel("Gmail");
 		lblNS.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNS.setBounds(57, 123, 90, 29);
 		panel1_3.add(lblNS);
@@ -711,8 +719,31 @@ public class HomeUser extends JFrame {
 		panel1_3.add(btn_CN);
 		
 		JButton btn_XN = new JButton("Xác nhận");
+		btn_XN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				taiKhoan tk = new taiKhoan();
+				tk.setMatKhau(txt_Moi.getText());
+				String s1 = txt_Moi.getText();
+				String s2 = txt_Lai.getText();
+				String s3 = connect_taiKhoan.KTPassCu(username);
+				String s4 = txt_Cu.getText();
+				if(s1.equals(s2) && s3.equals(s4)) {
+					connect_taiKhoan.DoiPass(tk, username);
+					JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+				} else {
+					JOptionPane.showMessageDialog(null, "Sai  mật khẩu cũ hoặc chưa đồng bộ mật khẩu mới\nVui lòng nhập lại!");
+				}
+			}
+		});
 		btn_XN.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_XN.setBounds(1281, 583, 103, 37);
 		panel1_3.add(btn_XN);
+		
+		showdata(connect_taiKhoan.find_HoTen_bySBD(username));
+	}
+	
+	public void showdata(taiKhoan us) {
+		txt_HVT.setText(us.getHoVaTen());
+		txt_Nam.setText(us.getGmail());
 	}
 }

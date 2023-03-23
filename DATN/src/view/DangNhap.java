@@ -127,7 +127,7 @@ public class DangNhap extends JFrame {
 						ah.setVisible(true);
 					} else  if (rs2.next()) {
 						dispose();
-						HomeUser ah = new HomeUser();
+						HomeUser ah = new HomeUser(userName);
 						ah.setLocationRelativeTo(null);
 						ah.setVisible(true);
 					} 
