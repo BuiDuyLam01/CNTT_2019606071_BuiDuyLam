@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 import model.taiKhoan;
 
 public class connect_taiKhoan {
@@ -42,6 +42,64 @@ public class connect_taiKhoan {
 		}
 		
 		return dstk;
+	}
+	
+	public static List<taiKhoan>findbyTen(taiKhoan s) {
+		List<taiKhoan>taikhoanl = new ArrayList<>();
+		String query = "SELECT MaThiSinh, HoVaTen, TenDangNhap, MatKhau, Gmail FROM taikhoan WHERE HoVaTen = '"+ s.getHoVaTen() +"' ";
+		try {
+			Connection connection = getConnection();
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				taiKhoan tk = new taiKhoan(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getString("TenDangNhap"),
+						rs.getString("MatKhau"), rs.getString("Gmail"));
+				taikhoanl.add(tk);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return taikhoanl;
+	}
+	
+	public static String NgauNhien() {
+		String characters = "ABCDEFGHIKMNLO123456789";
+		String st = "";
+		int length = 5;
+		Random rand = new Random();
+		char[] text = new char[length];
+		for(int i= 0; i<length; i++) {
+			text[i] = characters.charAt(rand.nextInt(characters.length()));
+		}
+		for(int i = 0; i < text.length; i++) {
+			st += text[i];
+		}
+		return st;
+	}
+	
+	public static void Reset(taiKhoan tk) {
+		String query = "UPDATE taikhoan SET taikhoan.`MatKhau` = ? WHERE taikhoan.TenDangNhap = '"+tk.getMaThiSinh()+"'";
+		
+		try {
+			Connection connection = getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, NgauNhien());;
+			pstmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void delete(taiKhoan tk) {
+		String query = "DELETE FROM `quanlithisinh`.`taikhoan` WHERE  `HoVaTen`='"+ tk.getHoVaTen() +"'";
+
+		try {
+			Connection connection = getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static boolean kiemtratontai(String s) {
@@ -109,6 +167,20 @@ public class connect_taiKhoan {
 			e.printStackTrace();
 		}
 		return tk.getMatKhau();
+	}
+	
+	public static void UpTT(taiKhoan us, String username) {
+		String query = "UPDATE taikhoan SET taikhoan.HoVaTen = ?, taikhoan.Gmail = ? WHERE taikhoan.TenDangNhap = '"+username+"'";
+		
+		try {
+			Connection connection = getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, us.getHoVaTen());
+			pstmt.setString(2, us.getGmail());
+			pstmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

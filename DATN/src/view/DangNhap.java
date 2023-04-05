@@ -145,11 +145,11 @@ public class DangNhap extends JFrame {
 		btnDN.setBounds(287, 276, 127, 46);
 		panel_DN.add(btnDN);
 		
-		btnDK_2 = new JButton("Đăng ký");
+		btnDK_2 = new JButton("Thoát");
 		btnDK_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				DangKi DK = new DangKi();
+				Home DK = new Home();
 				DK.setVisible(true);
 				DK.setLocationRelativeTo(null);
 			}

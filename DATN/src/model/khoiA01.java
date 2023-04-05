@@ -6,8 +6,8 @@ public class khoiA01 {
 	private int namSinh;
 	private int gioiTinh;
 	private float toan;
-	private float li;
 	private float hoa;
+	private float sinh;
 	private float uuTien;
 	private float tongdiem;
 	private float diemHocBa;
@@ -16,15 +16,15 @@ public class khoiA01 {
 		
 	}
 
-	public khoiA01(String maThiSinh, String hoVaTen, int namSinh, int gioiTinh, float toan, float li, float hoa,
+	public khoiA01(String maThiSinh, String hoVaTen, int namSinh, int gioiTinh, float toan, float hoa, float sinh,
 			float uuTien, float tongdiem, float diemHocBa) {
 		this.maThiSinh = maThiSinh;
 		this.hoVaTen = hoVaTen;
 		this.namSinh = namSinh;
 		this.gioiTinh = gioiTinh;
 		this.toan = toan;
-		this.li = li;
 		this.hoa = hoa;
+		this.sinh = sinh;
 		this.uuTien = uuTien;
 		this.tongdiem = tongdiem;
 		this.diemHocBa = diemHocBa;
@@ -70,20 +70,20 @@ public class khoiA01 {
 		this.toan = toan;
 	}
 
-	public float getLi() {
-		return li;
-	}
-
-	public void setLi(float li) {
-		this.li = li;
-	}
-
 	public float getHoa() {
 		return hoa;
 	}
 
 	public void setHoa(float hoa) {
 		this.hoa = hoa;
+	}
+
+	public float getSinh() {
+		return sinh;
+	}
+
+	public void setSinh(float sinh) {
+		this.sinh = sinh;
 	}
 
 	public float getUuTien() {

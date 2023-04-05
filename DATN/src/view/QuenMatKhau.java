@@ -128,6 +128,10 @@ public class QuenMatKhau extends JFrame {
 				{
 					connect_taiKhoan.DoiPass(tk, txtUser.getText());
 					JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+					dispose();
+					DangNhap cp = new DangNhap();
+					cp.setLocationRelativeTo(null);
+					cp.setVisible(true);
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "Sai thông tin. Vui lòng kiểm tra lại !");

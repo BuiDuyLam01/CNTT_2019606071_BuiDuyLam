@@ -1,6 +1,6 @@
 package model;
 
-public class CNTT {
+public class thiSinh {
 	private String maThiSinh;
 	private String hoVaTen;
 	private int gioiTinh;
@@ -8,11 +8,11 @@ public class CNTT {
 	private float tongDiem;
 	private float diemHocBa;
 	
-	public CNTT() {
+	public thiSinh() {
 		
 	}
 
-	public CNTT(String maThiSinh, String hoVaTen, int gioiTinh, int namSinh, float tongDiem, float diemHocBa) {
+	public thiSinh(String maThiSinh, String hoVaTen, int gioiTinh, int namSinh, float tongDiem, float diemHocBa) {
 		this.maThiSinh = maThiSinh;
 		this.hoVaTen = hoVaTen;
 		this.gioiTinh = gioiTinh;
