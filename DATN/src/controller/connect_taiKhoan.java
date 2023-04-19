@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import model.khoiA01;
 import model.taiKhoan;
 
 public class connect_taiKhoan {

@@ -130,9 +130,7 @@ public class HomeAdmin extends JFrame {
 	private JButton btn_XDSTT_CNTT;
 	private JLabel lb_DSTS_CNTT;
 	private JScrollPane scrollPane_CNTT;
-	private JLabel lbCTHB_CNTT;
 	private JComboBox cboCTDT_CNTT;
-	private JComboBox cboCTHB_CNTT;
 	private JScrollPane scrollPane_CNTT_TT;
 	private JLabel lbDSTT_CNTT;
 	private JButton btnQL_CNTT;
@@ -721,7 +719,7 @@ public class HomeAdmin extends JFrame {
 	 * Create the frame.
 	 */
 	public HomeAdmin() {
-		setTitle("TRANG CHỦ");
+		setTitle("TRANG QUẢN LÝ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1448, 768);
 
@@ -739,6 +737,14 @@ public class HomeAdmin extends JFrame {
 		menuBar.add(menuTG);
 
 		JMenu menuGT = new JMenu("Giới thiệu");
+		menuGT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "CHƯƠNG TRÌNH QUẢN LÍ QUẢN LÝ TUYỂN SINH CỦA TRƯỜNG ĐẠI HỌC VIỆT Á\n\n"
+						+ "Giáo viên hướng dẫn: Ths.Chu Thị Quyên\n\n"
+						+ "Sinh viên thực hiện: Bùi Duy Lẫm\n");
+			}
+		});
 		menuGT.setForeground(Color.BLACK);
 		menuGT.setFont(new Font("Tahoma", Font.BOLD, 14));
 		menuBar.add(menuGT);
@@ -768,8 +774,24 @@ public class HomeAdmin extends JFrame {
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textArea.setBounds(52, 73, 1360, 558);
-		textArea.setText(
-				"1.1 Đối tượng tuyển sinh\r\n\r\nLà những thí sinh đã tốt nghiệp Trung học phổ thông hoặc tương đương.\r\n\r\n1.2 Phạm vi tuyển sinh\r\n\r\nTuyển sinh trên toàn quốc.\r\n\r\n1.3 Phương thức tuyển sinh\r\n\r\nNăm 2023, Trường Đại học Việt Á tuyển sinh 3600 chỉ tiêu trình độ Đại học chính quy với 47 chuyên ngành đào tạo theo 03 phương thức xét tuyển độc lập:\r\n\r\n- Phương thức 1 (PT1): Xét tuyển dựa trên kết quả Kỳ thi tốt nghiệp Trung học phổ thông năm 2022. Áp dụng cho toàn bộ các chuyên ngành.\r\n\r\n- Phương thức 2 (PT2): Xét tuyển thẳng theo đề án riêng của Trường Đại học Việt Á (Xét tuyển kết hợp) áp dụng cho toàn bộ các chuyên ngành đối với những thí sinh có tổng điểm các môn thi\n\n tốt nghiệp THPT năm 2022 trong tổ hợp môn xét tuyển đạt ngưỡng chất lượng đầu vào theo Quy định của Nhà trường và đáp ứng một trong các tiêu chí sau:\r\n\r\nTiêu chí 1: Có chứng chỉ Tiếng Anh quốc tế IELTS 5.0 hoặc TOEFL 494 ITP hoặc TOEFL 58 iBT hoặc Toeic (L&R) 595 trở lên trong thời hạn (tính đến ngày 30/08/2022).\r\n\r\nTiêu chí 2:  Đạt các giải Nhất, Nhì, Ba các môn thi Toán học, Vật lý, Hóa học, Sinh học, Ngữ văn, Lịch sử, Địa lý, Tin học và Ngoại ngữ trong kỳ thi chọn học sinh giỏi cấp Tỉnh, Thành phố trở lên.\r\n\r\nTiêu chí 3:  Học 03 năm THPT tại các lớp Chuyên: Toán học, Vật Lý, Hóa học, Sinh học, Ngữ văn, Tiếng Anh, Tin học, Khoa học tự nhiên thuộc các trường Chuyên cấp Tỉnh/Thành phố. Có học lực\n\n Khá trở lên và hạnh kiểm Tốt các năm lớp 10, 11, 12.\r\n\r\n- Phương thức 3 (PT3): Xét tuyển dựa trên kết quả học tập và rèn luyện trung học phổ thông (xét Học bạ) với 30% chỉ tiêu. Áp dụng 28 chuyên ngành thuộc nhóm Kỹ thuật & Công nghệ,\n\n 02 chuyên ngành thuộc nhóm Chất lượng cao (Công nghệ thông tin và Điện tự động công nghiệp).");
+		textArea.setText("Trường Đại học Việt Á trân trọng thông báo đến các thí sinh về kế hoạch tuyển sinh đại học cho năm 2023 như sau:\r\n\n"
+				+ "1. Đối tượng tuyển sinh: Tất cả các thí sinh đã tốt nghiệp THPT hoặc có bằng tương đương.\r\n\n"
+				+ "2. Phương thức xét tuyển:\r\n\n"
+				+ "- Xét tuyển dựa trên tổng điểm thi các môn học THPT trong khối xét tuyển.\r\n\n"
+				+ "- Thí sinh sẽ được cộng điểm ưu tiên tùy vào từng khu vực theo quy định của Bộ Giáo dục và Đào tạo.\r\n\n"
+				+ "3. Hình thức đăng ký và nộp hồ sơ:\r\n\n"
+				+ "- Đăng ký trực tuyến tại phần mềm tuyển sinh của trường.\r\n\n"
+				+ "- Nộp hồ sơ tại phòng Tuyển sinh - Trường Đại học Việt Á, địa chỉ số 128, đường Hoàng Quốc Việt, quận Cầu Giấy, thành phố Hà Nội.\r\n\n"
+				+ "4. Thời gian đăng ký và nộp hồ sơ:\r\n"
+				+ "- Đăng ký trực tuyến: Từ ngày 1/6/2023 đến ngày 30/6/2023.\r\n\n"
+				+ "- Nộp hồ sơ: Từ ngày 1/6/2023 đến ngày 30/6/2023.\r\n\n"
+				+ "5. Liên hệ:\r\n"
+				+ "- Phòng Tuyển sinh - Trường Đại học Việt Á.\r\n\n"
+				+ "- Địa chỉ: Số 128, đường Hoàng Quốc Việt, quận Cầu Giấy, thành phố Hà Nội.\r\n\n"
+				+ "- Điện thoại: (024) 1234 5678.\r\n\n"
+				+ "Trường Đại học Việt Á kính chúc các thí sinh thành công trong kỳ thi tuyển sinh và chào đón các bạn đến với môi trường học tập chuyên nghiệp của trường chúng tôi.\r\n"
+				+ "\r\n"
+				+ "");
 		panel_TrangChu.add(textArea);
 
 		JLabel lblNewLabel = new JLabel(
@@ -896,7 +918,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhCNTT.setLayout(null);
 
 		lbCTDT_CNTT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_CNTT.setBounds(514, 8, 129, 32);
+		lbCTDT_CNTT.setBounds(742, 8, 129, 32);
 		panel_NganhCNTT.add(lbCTDT_CNTT);
 		lbCTDT_CNTT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -909,7 +931,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_CNTT.getSelectedItem();
-				value2 = (String) cboCTHB_CNTT.getSelectedItem();
 				panel_KhoaCNTT.remove(panel_NganhKTPM_TT);
 				panel_KhoaCNTT.remove(panel_NganhHTTT_TT);
 				panel_KhoaCNTT.remove(panel_NganhCNTT);
@@ -920,7 +941,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaCNTT.add(panel_NganhCNTT_TT);
 				panel_KhoaCNTT.revalidate();
 				panel_KhoaCNTT.repaint();
-				showData_CNTT_TT(connect_thiSinh.TrungTuyen_CNTT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_CNTT_TT(connect_thiSinh.TrungTuyen_CNTT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_CNTT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -978,22 +999,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_CNTT.setBounds(51, 104, 1041, 477);
 		panel_NganhCNTT.add(scrollPane_CNTT);
 
-		lbCTHB_CNTT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_CNTT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_CNTT.setBounds(730, 8, 129, 32);
-		panel_NganhCNTT.add(lbCTHB_CNTT);
-
 		cboCTDT_CNTT = new JComboBox();
 		cboCTDT_CNTT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_CNTT.setBounds(641, 14, 49, 21);
+		cboCTDT_CNTT.setBounds(869, 14, 49, 21);
 		panel_NganhCNTT.add(cboCTDT_CNTT);
-
-		cboCTHB_CNTT = new JComboBox();
-		cboCTHB_CNTT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_CNTT.setBounds(849, 14, 49, 21);
-		panel_NganhCNTT.add(cboCTHB_CNTT);
 
 		// khoa công nghệ thông tin - trúng tuyển ngành công nghệ thông tin
 		panel_NganhCNTT_TT = new JPanel();
@@ -1068,10 +1078,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_CNTT.getSelectedItem();
-				value2 = (String) cboCTHB_CNTT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_CNTT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_CNTT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1090,7 +1099,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhKHMT.setLayout(null);
 
 		lbCTDT_KHMT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_KHMT.setBounds(514, 8, 129, 32);
+		lbCTDT_KHMT.setBounds(742, 8, 129, 32);
 		panel_NganhKHMT.add(lbCTDT_KHMT);
 		lbCTDT_KHMT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -1103,7 +1112,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KHMT.getSelectedItem();
-				value2 = (String) cboCTHB_KHMT.getSelectedItem();
 				panel_KhoaCNTT.remove(panel_NganhKTPM_TT);
 				panel_KhoaCNTT.remove(panel_NganhHTTT_TT);
 				panel_KhoaCNTT.remove(panel_NganhCNTT);
@@ -1114,7 +1122,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaCNTT.add(panel_NganhKHMT_TT);
 				panel_KhoaCNTT.revalidate();
 				panel_KhoaCNTT.repaint();
-				showData_KHMT_TT(connect_thiSinh.TrungTuyen_KHMT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_KHMT_TT(connect_thiSinh.TrungTuyen_KHMT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_KHMT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1163,22 +1171,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_KHMT.setBounds(51, 104, 1041, 477);
 		panel_NganhKHMT.add(scrollPane_KHMT);
 
-		lbCTHB_KHMT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_KHMT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_KHMT.setBounds(730, 8, 129, 32);
-		panel_NganhKHMT.add(lbCTHB_KHMT);
-
 		cboCTDT_KHMT = new JComboBox();
 		cboCTDT_KHMT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_KHMT.setBounds(641, 14, 49, 21);
+		cboCTDT_KHMT.setBounds(869, 14, 49, 21);
 		panel_NganhKHMT.add(cboCTDT_KHMT);
-
-		cboCTHB_KHMT = new JComboBox();
-		cboCTHB_KHMT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_KHMT.setBounds(849, 14, 49, 21);
-		panel_NganhKHMT.add(cboCTHB_KHMT);
 
 		// khoa công nghệ thông tin - trúng tuyển ngành khoa học máy tính
 		panel_NganhKHMT_TT = new JPanel();
@@ -1253,10 +1250,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KHMT.getSelectedItem();
-				value2 = (String) cboCTHB_KHMT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_KHMT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_KHMT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1275,7 +1271,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhHTTT.setLayout(null);
 
 		lbCTDT_HTTT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_HTTT.setBounds(514, 8, 129, 32);
+		lbCTDT_HTTT.setBounds(742, 8, 129, 32);
 		panel_NganhHTTT.add(lbCTDT_HTTT);
 		lbCTDT_HTTT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -1288,7 +1284,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_HTTT.getSelectedItem();
-				value2 = (String) cboCTHB_HTTT.getSelectedItem();
 				panel_KhoaCNTT.remove(panel_NganhKTPM_TT);
 				panel_KhoaCNTT.remove(panel_NganhCNTT);
 				panel_KhoaCNTT.remove(panel_NganhKHMT);
@@ -1299,7 +1294,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaCNTT.add(panel_NganhHTTT_TT);
 				panel_KhoaCNTT.revalidate();
 				panel_KhoaCNTT.repaint();
-				showData_HTTT_TT(connect_thiSinh.TrungTuyen_HTTT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_HTTT_TT(connect_thiSinh.TrungTuyen_HTTT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_HTTT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1348,22 +1343,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_HTTT.setBounds(51, 104, 1041, 477);
 		panel_NganhHTTT.add(scrollPane_HTTT);
 
-		lbCTHB_HTTT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_HTTT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_HTTT.setBounds(730, 8, 129, 32);
-		panel_NganhHTTT.add(lbCTHB_HTTT);
-
 		cboCTDT_HTTT = new JComboBox();
 		cboCTDT_HTTT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_HTTT.setBounds(641, 14, 49, 21);
+		cboCTDT_HTTT.setBounds(869, 14, 49, 21);
 		panel_NganhHTTT.add(cboCTDT_HTTT);
-
-		cboCTHB_HTTT = new JComboBox();
-		cboCTHB_HTTT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_HTTT.setBounds(849, 14, 49, 21);
-		panel_NganhHTTT.add(cboCTHB_HTTT);
 
 		// khoa công nghệ thông tin - trúng tuyển ngành hệ thống thông tin
 		panel_NganhHTTT_TT = new JPanel();
@@ -1438,10 +1422,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_HTTT.getSelectedItem();
-				value2 = (String) cboCTHB_HTTT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_HTTT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_HTTT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1460,7 +1443,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhKTPM.setLayout(null);
 
 		lbCTDT_KTPM = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_KTPM.setBounds(514, 8, 129, 32);
+		lbCTDT_KTPM.setBounds(742, 8, 129, 32);
 		panel_NganhKTPM.add(lbCTDT_KTPM);
 		lbCTDT_KTPM.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -1473,7 +1456,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KTPM.getSelectedItem();
-				value2 = (String) cboCTHB_KTPM.getSelectedItem();
 				panel_KhoaCNTT.remove(panel_NganhKHMT_TT);
 				panel_KhoaCNTT.remove(panel_NganhCNTT_TT);
 				panel_KhoaCNTT.remove(panel_NganhHTTT_TT);
@@ -1484,7 +1466,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaCNTT.add(panel_NganhKTPM_TT);
 				panel_KhoaCNTT.revalidate();
 				panel_KhoaCNTT.repaint();
-				showData_KTPM_TT(connect_thiSinh.TrungTuyen_KTPM(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_KTPM_TT(connect_thiSinh.TrungTuyen_KTPM(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_KTPM.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1533,22 +1515,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_KTPM.setBounds(51, 104, 1041, 477);
 		panel_NganhKTPM.add(scrollPane_KTPM);
 
-		lbCTHB_KTPM = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_KTPM.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_KTPM.setBounds(730, 8, 129, 32);
-		panel_NganhKTPM.add(lbCTHB_KTPM);
-
 		cboCTDT_KTPM = new JComboBox();
 		cboCTDT_KTPM
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_KTPM.setBounds(641, 14, 49, 21);
+		cboCTDT_KTPM.setBounds(869, 14, 49, 21);
 		panel_NganhKTPM.add(cboCTDT_KTPM);
-
-		cboCTHB_KTPM = new JComboBox();
-		cboCTHB_KTPM
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_KTPM.setBounds(849, 14, 49, 21);
-		panel_NganhKTPM.add(cboCTHB_KTPM);
 
 		// khoa công nghệ thông tin - trúng tuyển ngành kỹ thuật phần mềm
 		panel_NganhKTPM_TT = new JPanel();
@@ -1623,10 +1594,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KTPM.getSelectedItem();
-				value2 = (String) cboCTHB_KTPM.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_KTPM(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_KTPM(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1751,7 +1721,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhHSP.setLayout(null);
 
 		lbCTDT_HSP = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_HSP.setBounds(514, 8, 129, 32);
+		lbCTDT_HSP.setBounds(742, 8, 129, 32);
 		panel_NganhHSP.add(lbCTDT_HSP);
 		lbCTDT_HSP.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -1764,7 +1734,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_HSP.getSelectedItem();
-				value2 = (String) cboCTHB_HSP.getSelectedItem();
 				panel_KhoaGDDT.remove(panel_NganhQLGD);
 				panel_KhoaGDDT.remove(panel_NganhGDTE_TT);
 				panel_KhoaGDDT.remove(panel_NganhGDNL_TT);
@@ -1775,7 +1744,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaGDDT.add(panel_NganhHSP_TT);
 				panel_KhoaGDDT.revalidate();
 				panel_KhoaGDDT.repaint();
-				showData_HSP_TT(connect_thiSinh.TrungTuyen_HSP(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_HSP_TT(connect_thiSinh.TrungTuyen_HSP(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_HSP.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -1824,22 +1793,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_HSP.setBounds(51, 104, 1041, 477);
 		panel_NganhHSP.add(scrollPane_HSP);
 
-		lbCTHB_HSP = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_HSP.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_HSP.setBounds(730, 8, 129, 32);
-		panel_NganhHSP.add(lbCTHB_HSP);
-
 		cboCTDT_HSP = new JComboBox();
 		cboCTDT_HSP
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_HSP.setBounds(641, 14, 49, 21);
+		cboCTDT_HSP.setBounds(869, 14, 49, 21);
 		panel_NganhHSP.add(cboCTDT_HSP);
-
-		cboCTHB_HSP = new JComboBox();
-		cboCTHB_HSP
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_HSP.setBounds(849, 14, 49, 21);
-		panel_NganhHSP.add(cboCTHB_HSP);
 
 		// khoa giáo dục và đào tạo - trúng tuyển ngành học sư phạm
 		panel_NganhHSP_TT = new JPanel();
@@ -1914,10 +1872,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_HSP.getSelectedItem();
-				value2 = (String) cboCTHB_HSP.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_HSP(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_HSP(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -1937,7 +1894,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhGDTE.setLayout(null);
 
 		lbCTDT_GDTE = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_GDTE.setBounds(514, 8, 129, 32);
+		lbCTDT_GDTE.setBounds(742, 8, 129, 32);
 		panel_NganhGDTE.add(lbCTDT_GDTE);
 		lbCTDT_GDTE.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -1950,7 +1907,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_GDTE.getSelectedItem();
-				value2 = (String) cboCTHB_GDTE.getSelectedItem();
 				panel_KhoaGDDT.remove(panel_NganhQLGD);
 				panel_KhoaGDDT.remove(panel_NganhHSP_TT);
 				panel_KhoaGDDT.remove(panel_NganhGDNL_TT);
@@ -1961,7 +1917,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaGDDT.add(panel_NganhGDTE_TT);
 				panel_KhoaGDDT.revalidate();
 				panel_KhoaGDDT.repaint();
-				showData_GDTE_TT(connect_thiSinh.TrungTuyen_GDTE(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_GDTE_TT(connect_thiSinh.TrungTuyen_GDTE(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_GDTE.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -2010,22 +1966,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_GDTE.setBounds(51, 104, 1041, 477);
 		panel_NganhGDTE.add(scrollPane_GDTE);
 
-		lbCTHB_GDTE = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_GDTE.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_GDTE.setBounds(730, 8, 129, 32);
-		panel_NganhGDTE.add(lbCTHB_GDTE);
-
 		cboCTDT_GDTE = new JComboBox();
 		cboCTDT_GDTE
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_GDTE.setBounds(641, 14, 49, 21);
+		cboCTDT_GDTE.setBounds(869, 14, 49, 21);
 		panel_NganhGDTE.add(cboCTDT_GDTE);
-
-		cboCTHB_GDTE = new JComboBox();
-		cboCTHB_GDTE
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_GDTE.setBounds(849, 14, 49, 21);
-		panel_NganhGDTE.add(cboCTHB_GDTE);
 
 		// khoa giáo dục và đào tạo - trúng tuyển ngành giáo dục trẻ em
 		panel_NganhGDTE_TT = new JPanel();
@@ -2100,10 +2045,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_GDTE.getSelectedItem();
-				value2 = (String) cboCTHB_GDTE.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_GDTE(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_GDTE(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -2123,7 +2067,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhGDNL.setLayout(null);
 
 		lbCTDT_GDNL = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_GDNL.setBounds(514, 8, 129, 32);
+		lbCTDT_GDNL.setBounds(742, 8, 129, 32);
 		panel_NganhGDNL.add(lbCTDT_GDNL);
 		lbCTDT_GDNL.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -2136,7 +2080,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_GDNL.getSelectedItem();
-				value2 = (String) cboCTHB_GDNL.getSelectedItem();
 				panel_KhoaGDDT.remove(panel_NganhQLGD);
 				panel_KhoaGDDT.remove(panel_NganhGDTE_TT);
 				panel_KhoaGDDT.remove(panel_NganhHSP_TT);
@@ -2147,7 +2090,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaGDDT.add(panel_NganhGDNL_TT);
 				panel_KhoaGDDT.revalidate();
 				panel_KhoaGDDT.repaint();
-				showData_GDNL_TT(connect_thiSinh.TrungTuyen_GDNL(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_GDNL_TT(connect_thiSinh.TrungTuyen_GDNL(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_GDNL.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -2196,22 +2139,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_GDNL.setBounds(51, 104, 1041, 477);
 		panel_NganhGDNL.add(scrollPane_GDNL);
 
-		lbCTHB_GDNL = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_GDNL.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_GDNL.setBounds(730, 8, 129, 32);
-		panel_NganhGDNL.add(lbCTHB_GDNL);
-
 		cboCTDT_GDNL = new JComboBox();
 		cboCTDT_GDNL
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_GDNL.setBounds(641, 14, 49, 21);
+		cboCTDT_GDNL.setBounds(869, 14, 49, 21);
 		panel_NganhGDNL.add(cboCTDT_GDNL);
-
-		cboCTHB_GDNL = new JComboBox();
-		cboCTHB_GDNL
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_GDNL.setBounds(849, 14, 49, 21);
-		panel_NganhGDNL.add(cboCTHB_GDNL);
 
 		// khoa giáo dục và đào tạo - trúng tuyển ngành giáo dục người lớn
 		panel_NganhGDNL_TT = new JPanel();
@@ -2286,10 +2218,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_GDNL.getSelectedItem();
-				value2 = (String) cboCTHB_GDNL.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_GDNL(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_GDNL(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -2309,7 +2240,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhQLGD.setLayout(null);
 
 		lbCTDT_QLGD = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_QLGD.setBounds(514, 8, 129, 32);
+		lbCTDT_QLGD.setBounds(742, 8, 129, 32);
 		panel_NganhQLGD.add(lbCTDT_QLGD);
 		lbCTDT_QLGD.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -2322,7 +2253,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_QLGD.getSelectedItem();
-				value2 = (String) cboCTHB_QLGD.getSelectedItem();
 				panel_KhoaGDDT.remove(panel_NganhQLGD);
 				panel_KhoaGDDT.remove(panel_NganhGDTE_TT);
 				panel_KhoaGDDT.remove(panel_NganhHSP_TT);
@@ -2333,7 +2263,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaGDDT.add(panel_NganhQLGD_TT);
 				panel_KhoaGDDT.revalidate();
 				panel_KhoaGDDT.repaint();
-				showData_QLGD_TT(connect_thiSinh.TrungTuyen_QLGD(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_QLGD_TT(connect_thiSinh.TrungTuyen_QLGD(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_QLGD.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -2382,22 +2312,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_QLGD.setBounds(51, 104, 1041, 477);
 		panel_NganhQLGD.add(scrollPane_QLGD);
 
-		lbCTHB_QLGD = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_QLGD.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_QLGD.setBounds(730, 8, 129, 32);
-		panel_NganhQLGD.add(lbCTHB_QLGD);
-
 		cboCTDT_QLGD = new JComboBox();
 		cboCTDT_QLGD
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_QLGD.setBounds(641, 14, 49, 21);
+		cboCTDT_QLGD.setBounds(869, 14, 49, 21);
 		panel_NganhQLGD.add(cboCTDT_QLGD);
-
-		cboCTHB_QLGD = new JComboBox();
-		cboCTHB_QLGD
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_QLGD.setBounds(849, 14, 49, 21);
-		panel_NganhQLGD.add(cboCTHB_QLGD);
 
 		// khoa giáo dục và đào tạo - trúng tuyển ngành quản lí giáo dục
 		panel_NganhQLGD_TT = new JPanel();
@@ -2472,10 +2391,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_QLGD.getSelectedItem();
-				value2 = (String) cboCTHB_QLGD.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_QLGD(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_QLGD(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -2488,7 +2406,7 @@ public class HomeAdmin extends JFrame {
 
 		// khoa kỹ thuật
 		panel_KhoaKTH = new JPanel();
-		panel_KhoaKTH.setBackground(Color.WHITE);
+		panel_KhoaKTH.setBackground(SystemColor.control);
 		panel_KhoaKTH.setBounds(0, 35, 1440, 673);
 		contentPane.add(panel_KhoaKTH);
 		panel_KhoaKTH.setLayout(null);
@@ -2600,7 +2518,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhKTCK.setLayout(null);
 
 		lbCTDT_KTCK = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_KTCK.setBounds(514, 8, 129, 32);
+		lbCTDT_KTCK.setBounds(742, 8, 129, 32);
 		panel_NganhKTCK.add(lbCTDT_KTCK);
 		lbCTDT_KTCK.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -2613,7 +2531,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KTCK.getSelectedItem();
-				value2 = (String) cboCTHB_KTCK.getSelectedItem();
 				panel_KhoaKTH.remove(panel_NganhKTCK);
 				panel_KhoaKTH.remove(panel_NganhKTOT_TT);
 				panel_KhoaKTH.remove(panel_NganhKHHH_TT);
@@ -2624,7 +2541,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaKTH.add(panel_NganhKTCK_TT);
 				panel_KhoaKTH.revalidate();
 				panel_KhoaKTH.repaint();
-				showData_KTCK_TT(connect_thiSinh.TrungTuyen_KTCK(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_KTCK_TT(connect_thiSinh.TrungTuyen_KTCK(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_KTCK.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -2673,22 +2590,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_KTCK.setBounds(51, 104, 1041, 477);
 		panel_NganhKTCK.add(scrollPane_KTCK);
 
-		lbCTHB_KTCK = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_KTCK.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_KTCK.setBounds(730, 8, 129, 32);
-		panel_NganhKTCK.add(lbCTHB_KTCK);
-
 		cboCTDT_KTCK = new JComboBox();
 		cboCTDT_KTCK
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_KTCK.setBounds(641, 14, 49, 21);
+		cboCTDT_KTCK.setBounds(869, 14, 49, 21);
 		panel_NganhKTCK.add(cboCTDT_KTCK);
-
-		cboCTHB_KTCK = new JComboBox();
-		cboCTHB_KTCK
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_KTCK.setBounds(849, 14, 49, 21);
-		panel_NganhKTCK.add(cboCTHB_KTCK);
 
 		// khoa giáo dục và đào tạo - trúng tuyển ngành kỹ thuật cơ khí
 		panel_NganhKTCK_TT = new JPanel();
@@ -2763,10 +2669,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KTCK.getSelectedItem();
-				value2 = (String) cboCTHB_KTCK.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_KTCK(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_KTCK(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -2786,7 +2691,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhKTOT.setLayout(null);
 
 		lbCTDT_KTOT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_KTOT.setBounds(514, 8, 129, 32);
+		lbCTDT_KTOT.setBounds(742, 8, 129, 32);
 		panel_NganhKTOT.add(lbCTDT_KTOT);
 		lbCTDT_KTOT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -2799,7 +2704,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KTOT.getSelectedItem();
-				value2 = (String) cboCTHB_KTOT.getSelectedItem();
 				panel_KhoaKTH.remove(panel_NganhKTCK);
 				panel_KhoaKTH.remove(panel_NganhKTCK_TT);
 				panel_KhoaKTH.remove(panel_NganhKHHH_TT);
@@ -2810,7 +2714,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaKTH.add(panel_NganhKTOT_TT);
 				panel_KhoaKTH.revalidate();
 				panel_KhoaKTH.repaint();
-				showData_KTOT_TT(connect_thiSinh.TrungTuyen_KTOT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_KTOT_TT(connect_thiSinh.TrungTuyen_KTOT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_KTOT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -2858,23 +2762,12 @@ public class HomeAdmin extends JFrame {
 		scrollPane_KTOT = new JScrollPane(table_KTOT);
 		scrollPane_KTOT.setBounds(51, 104, 1041, 477);
 		panel_NganhKTOT.add(scrollPane_KTOT);
-
-		lbCTHB_KTOT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_KTOT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_KTOT.setBounds(730, 8, 129, 32);
-		panel_NganhKTOT.add(lbCTHB_KTOT);
-
+		
 		cboCTDT_KTOT = new JComboBox();
 		cboCTDT_KTOT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_KTOT.setBounds(641, 14, 49, 21);
+		cboCTDT_KTOT.setBounds(869, 14, 49, 21);
 		panel_NganhKTOT.add(cboCTDT_KTOT);
-
-		cboCTHB_KTOT = new JComboBox();
-		cboCTHB_KTOT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_KTOT.setBounds(849, 14, 49, 21);
-		panel_NganhKTOT.add(cboCTHB_KTOT);
 
 		// khoa kỹ thuật - trúng tuyển ngành kỹ thuật ô tô
 		panel_NganhKTOT_TT = new JPanel();
@@ -2949,10 +2842,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KTOT.getSelectedItem();
-				value2 = (String) cboCTHB_KTOT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_KTOT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_KTOT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -2972,7 +2864,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhKHHH.setLayout(null);
 
 		lbCTDT_KHHH = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_KHHH.setBounds(514, 8, 129, 32);
+		lbCTDT_KHHH.setBounds(742, 8, 129, 32);
 		panel_NganhKHHH.add(lbCTDT_KHHH);
 		lbCTDT_KHHH.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -2985,7 +2877,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KHHH.getSelectedItem();
-				value2 = (String) cboCTHB_KHHH.getSelectedItem();
 				panel_KhoaKTH.remove(panel_NganhKTCK);
 				panel_KhoaKTH.remove(panel_NganhKTOT_TT);
 				panel_KhoaKTH.remove(panel_NganhKTCK_TT);
@@ -2996,7 +2887,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaKTH.add(panel_NganhKHHH_TT);
 				panel_KhoaKTH.revalidate();
 				panel_KhoaKTH.repaint();
-				showData_KHHH_TT(connect_thiSinh.TrungTuyen_KHHH(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_KHHH_TT(connect_thiSinh.TrungTuyen_KHHH(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_KHHH.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -3044,23 +2935,12 @@ public class HomeAdmin extends JFrame {
 		scrollPane_KHHH = new JScrollPane(table_KHHH);
 		scrollPane_KHHH.setBounds(51, 104, 1041, 477);
 		panel_NganhKHHH.add(scrollPane_KHHH);
-
-		lbCTHB_KHHH = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_KHHH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_KHHH.setBounds(730, 8, 129, 32);
-		panel_NganhKHHH.add(lbCTHB_KHHH);
-
+		
 		cboCTDT_KHHH = new JComboBox();
 		cboCTDT_KHHH
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_KHHH.setBounds(641, 14, 49, 21);
+		cboCTDT_KHHH.setBounds(869, 14, 49, 21);
 		panel_NganhKHHH.add(cboCTDT_KHHH);
-
-		cboCTHB_KHHH = new JComboBox();
-		cboCTHB_KHHH
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_KHHH.setBounds(849, 14, 49, 21);
-		panel_NganhKHHH.add(cboCTHB_KHHH);
 
 		// khoa kỹ thuật - trúng tuyển ngành khoa học hàng hải
 		panel_NganhKHHH_TT = new JPanel();
@@ -3135,10 +3015,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KHHH.getSelectedItem();
-				value2 = (String) cboCTHB_KHHH.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_KHHH(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_KHHH(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -3158,7 +3037,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhCDT.setLayout(null);
 
 		lbCTDT_CDT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_CDT.setBounds(514, 8, 129, 32);
+		lbCTDT_CDT.setBounds(742, 8, 129, 32);
 		panel_NganhCDT.add(lbCTDT_CDT);
 		lbCTDT_CDT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -3171,7 +3050,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_CDT.getSelectedItem();
-				value2 = (String) cboCTHB_CDT.getSelectedItem();
 				panel_KhoaKTH.remove(panel_NganhKTCK);
 				panel_KhoaKTH.remove(panel_NganhKTOT_TT);
 				panel_KhoaKTH.remove(panel_NganhKHHH_TT);
@@ -3182,7 +3060,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaKTH.add(panel_NganhCDT_TT);
 				panel_KhoaKTH.revalidate();
 				panel_KhoaKTH.repaint();
-				showData_CDT_TT(connect_thiSinh.TrungTuyen_CDT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_CDT_TT(connect_thiSinh.TrungTuyen_CDT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_CDT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -3231,22 +3109,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_CDT.setBounds(51, 104, 1041, 477);
 		panel_NganhCDT.add(scrollPane_CDT);
 
-		lbCTHB_CDT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_CDT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_CDT.setBounds(730, 8, 129, 32);
-		panel_NganhCDT.add(lbCTHB_CDT);
-
 		cboCTDT_CDT = new JComboBox();
 		cboCTDT_CDT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_CDT.setBounds(641, 14, 49, 21);
+		cboCTDT_CDT.setBounds(869, 14, 49, 21);
 		panel_NganhCDT.add(cboCTDT_CDT);
-
-		cboCTHB_CDT = new JComboBox();
-		cboCTHB_CDT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_CDT.setBounds(849, 14, 49, 21);
-		panel_NganhCDT.add(cboCTHB_CDT);
 
 		// khoa kỹ thuật - trúng tuyển ngành cơ điện tử
 		panel_NganhCDT_TT = new JPanel();
@@ -3321,10 +3188,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_CDT.getSelectedItem();
-				value2 = (String) cboCTHB_CDT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_CDT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_CDT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -3337,7 +3203,7 @@ public class HomeAdmin extends JFrame {
 
 		// khoa kinh doanh và quản lí
 		panel_KhoaQLKD = new JPanel();
-		panel_KhoaQLKD.setBackground(Color.WHITE);
+		panel_KhoaQLKD.setBackground(SystemColor.control);
 		panel_KhoaQLKD.setBounds(0, 35, 1440, 673);
 		contentPane.add(panel_KhoaQLKD);
 		panel_KhoaQLKD.setLayout(null);
@@ -3449,7 +3315,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhTMDT.setLayout(null);
 
 		lbCTDT_TMDT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_TMDT.setBounds(514, 8, 129, 32);
+		lbCTDT_TMDT.setBounds(742, 8, 129, 32);
 		panel_NganhTMDT.add(lbCTDT_TMDT);
 		lbCTDT_TMDT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -3462,7 +3328,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_TMDT.getSelectedItem();
-				value2 = (String) cboCTHB_TMDT.getSelectedItem();
 				panel_KhoaQLKD.remove(panel_NganhTMDT);
 				panel_KhoaQLKD.remove(panel_NganhKT_TT);
 				panel_KhoaQLKD.remove(panel_NganhQLCL_TT);
@@ -3473,7 +3338,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaQLKD.add(panel_NganhTMDT_TT);
 				panel_KhoaQLKD.revalidate();
 				panel_KhoaQLKD.repaint();
-				showData_TMDT_TT(connect_thiSinh.TrungTuyen_TMDT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_TMDT_TT(connect_thiSinh.TrungTuyen_TMDT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_TMDT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -3522,22 +3387,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_TMDT.setBounds(51, 104, 1041, 477);
 		panel_NganhTMDT.add(scrollPane_TMDT);
 
-		lbCTHB_TMDT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_TMDT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_TMDT.setBounds(730, 8, 129, 32);
-		panel_NganhTMDT.add(lbCTHB_TMDT);
-
 		cboCTDT_TMDT = new JComboBox();
 		cboCTDT_TMDT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_TMDT.setBounds(641, 14, 49, 21);
+		cboCTDT_TMDT.setBounds(869, 14, 49, 21);
 		panel_NganhTMDT.add(cboCTDT_TMDT);
-
-		cboCTHB_TMDT = new JComboBox();
-		cboCTHB_TMDT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_TMDT.setBounds(849, 14, 49, 21);
-		panel_NganhTMDT.add(cboCTHB_TMDT);
 
 		// khoa quản lí kinh doanh - trúng tuyển ngành thương mại điện tử
 		panel_NganhTMDT_TT = new JPanel();
@@ -3612,10 +3466,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_TMDT.getSelectedItem();
-				value2 = (String) cboCTHB_TMDT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_TMDT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_TMDT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -3635,7 +3488,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhKT.setLayout(null);
 
 		lbCTDT_KT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_KT.setBounds(514, 8, 129, 32);
+		lbCTDT_KT.setBounds(742, 8, 129, 32);
 		panel_NganhKT.add(lbCTDT_KT);
 		lbCTDT_KT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -3648,7 +3501,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KT.getSelectedItem();
-				value2 = (String) cboCTHB_KT.getSelectedItem();
 				panel_KhoaQLKD.remove(panel_NganhTMDT);
 				panel_KhoaQLKD.remove(panel_NganhTMDT_TT);
 				panel_KhoaQLKD.remove(panel_NganhQLCL_TT);
@@ -3659,7 +3511,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaQLKD.add(panel_NganhKT_TT);
 				panel_KhoaQLKD.revalidate();
 				panel_KhoaQLKD.repaint();
-				showData_KT_TT(connect_thiSinh.TrungTuyen_KT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_KT_TT(connect_thiSinh.TrungTuyen_KT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_KT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -3708,22 +3560,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_KT.setBounds(51, 104, 1041, 477);
 		panel_NganhKT.add(scrollPane_KT);
 
-		lbCTHB_KT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_KT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_KT.setBounds(730, 8, 129, 32);
-		panel_NganhKT.add(lbCTHB_KT);
-
 		cboCTDT_KT = new JComboBox();
 		cboCTDT_KT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_KT.setBounds(641, 14, 49, 21);
+		cboCTDT_KT.setBounds(869, 14, 49, 21);
 		panel_NganhKT.add(cboCTDT_KT);
-
-		cboCTHB_KT = new JComboBox();
-		cboCTHB_KT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_KT.setBounds(849, 14, 49, 21);
-		panel_NganhKT.add(cboCTHB_KT);
 
 		// khoa quản lí kinh doanh - trúng tuyển ngành kế toán
 		panel_NganhKT_TT = new JPanel();
@@ -3798,10 +3639,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_KT.getSelectedItem();
-				value2 = (String) cboCTHB_KT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_KT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_KT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -3821,7 +3661,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhQLCL.setLayout(null);
 
 		lbCTDT_QLCL = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_QLCL.setBounds(514, 8, 129, 32);
+		lbCTDT_QLCL.setBounds(742, 8, 129, 32);
 		panel_NganhQLCL.add(lbCTDT_QLCL);
 		lbCTDT_QLCL.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -3834,7 +3674,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_QLCL.getSelectedItem();
-				value2 = (String) cboCTHB_QLCL.getSelectedItem();
 				panel_KhoaQLKD.remove(panel_NganhTMDT);
 				panel_KhoaQLKD.remove(panel_NganhKT_TT);
 				panel_KhoaQLKD.remove(panel_NganhTMDT_TT);
@@ -3845,7 +3684,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaQLKD.add(panel_NganhQLCL_TT);
 				panel_KhoaQLKD.revalidate();
 				panel_KhoaQLKD.repaint();
-				showData_QLCL_TT(connect_thiSinh.TrungTuyen_QLCL(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_QLCL_TT(connect_thiSinh.TrungTuyen_QLCL(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_QLCL.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -3894,22 +3733,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_QLCL.setBounds(51, 104, 1041, 477);
 		panel_NganhQLCL.add(scrollPane_QLCL);
 
-		lbCTHB_QLCL = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_QLCL.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_QLCL.setBounds(730, 8, 129, 32);
-		panel_NganhQLCL.add(lbCTHB_QLCL);
-
 		cboCTDT_QLCL = new JComboBox();
 		cboCTDT_QLCL
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_QLCL.setBounds(641, 14, 49, 21);
+		cboCTDT_QLCL.setBounds(869, 14, 49, 21);
 		panel_NganhQLCL.add(cboCTDT_QLCL);
-
-		cboCTHB_QLCL = new JComboBox();
-		cboCTHB_QLCL
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_QLCL.setBounds(849, 14, 49, 21);
-		panel_NganhQLCL.add(cboCTHB_QLCL);
 
 		// khoa quản lí kinh doanh - trúng tuyển ngành quản lí chất lượng
 		panel_NganhQLCL_TT = new JPanel();
@@ -3984,10 +3812,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_QLCL.getSelectedItem();
-				value2 = (String) cboCTHB_QLCL.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_QLCL(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_QLCL(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -4007,7 +3834,7 @@ public class HomeAdmin extends JFrame {
 		panel_NganhMKT.setLayout(null);
 
 		lbCTDT_MKT = new JLabel("Chỉ tiêu điểm thi");
-		lbCTDT_MKT.setBounds(514, 8, 129, 32);
+		lbCTDT_MKT.setBounds(742, 8, 129, 32);
 		panel_NganhMKT.add(lbCTDT_MKT);
 		lbCTDT_MKT.setFont(new Font("Tahoma", Font.BOLD, 14));
 
@@ -4020,7 +3847,6 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_MKT.getSelectedItem();
-				value2 = (String) cboCTHB_MKT.getSelectedItem();
 				panel_KhoaQLKD.remove(panel_NganhTMDT);
 				panel_KhoaQLKD.remove(panel_NganhKT_TT);
 				panel_KhoaQLKD.remove(panel_NganhQLCL_TT);
@@ -4031,7 +3857,7 @@ public class HomeAdmin extends JFrame {
 				panel_KhoaQLKD.add(panel_NganhMKT_TT);
 				panel_KhoaQLKD.revalidate();
 				panel_KhoaQLKD.repaint();
-				showData_MKT_TT(connect_thiSinh.TrungTuyen_MKT(Integer.parseInt(value1), Integer.parseInt(value2)));
+				showData_MKT_TT(connect_thiSinh.TrungTuyen_MKT(Integer.parseInt(value1)));
 			}
 		});
 		btn_XDSTT_MKT.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -4080,22 +3906,11 @@ public class HomeAdmin extends JFrame {
 		scrollPane_MKT.setBounds(51, 104, 1041, 477);
 		panel_NganhMKT.add(scrollPane_MKT);
 
-		lbCTHB_MKT = new JLabel("Chỉ tiêu học bạ");
-		lbCTHB_MKT.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lbCTHB_MKT.setBounds(730, 8, 129, 32);
-		panel_NganhMKT.add(lbCTHB_MKT);
-
 		cboCTDT_MKT = new JComboBox();
 		cboCTDT_MKT
 				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTDT_MKT.setBounds(641, 14, 49, 21);
+		cboCTDT_MKT.setBounds(869, 14, 49, 21);
 		panel_NganhMKT.add(cboCTDT_MKT);
-
-		cboCTHB_MKT = new JComboBox();
-		cboCTHB_MKT
-				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-		cboCTHB_MKT.setBounds(849, 14, 49, 21);
-		panel_NganhMKT.add(cboCTHB_MKT);
 
 		// khoa quản lí kinh doanh - trúng tuyển ngành marketing
 		panel_NganhMKT_TT = new JPanel();
@@ -4170,10 +3985,9 @@ public class HomeAdmin extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				value1 = (String) cboCTDT_MKT.getSelectedItem();
-				value2 = (String) cboCTHB_MKT.getSelectedItem();
 				try {
 					JOptionPane.showMessageDialog(null, "Xuất file thành công!");
-					connect_thiSinh.XuatFile_MKT(Integer.parseInt(value1), Integer.parseInt(value2));
+					connect_thiSinh.XuatFile_MKT(Integer.parseInt(value1));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -7306,20 +7120,16 @@ public class HomeAdmin extends JFrame {
 		btn_TaoDiem_TK = new JButton("Tạo điểm");
 		btn_TaoDiem_TK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Float.parseFloat(txt_Tong_TK.getText()) == 0) {
-					contentPane.remove(panel_ThongKe);
-					contentPane.remove(panel_QuanLiTaiKhoan);
-					contentPane.remove(panel_KhoaKTH);
-					contentPane.remove(panel_KhoaQLKD);
-					contentPane.remove(panel_KhoaCNTT);
-					contentPane.remove(panel_KhoaGDDT);
-					contentPane.remove(panel_TrangChu);
-					contentPane.add(panel_QuanLiDiemThi);
-					contentPane.revalidate();
-					contentPane.repaint();
-				} else {
-					JOptionPane.showMessageDialog(null, "Thí sinh này đã có điểm!");
-				}
+				contentPane.remove(panel_ThongKe);
+				contentPane.remove(panel_QuanLiTaiKhoan);
+				contentPane.remove(panel_KhoaKTH);
+				contentPane.remove(panel_KhoaQLKD);
+				contentPane.remove(panel_KhoaCNTT);
+				contentPane.remove(panel_KhoaGDDT);
+				contentPane.remove(panel_TrangChu);
+				contentPane.add(panel_QuanLiDiemThi);
+				contentPane.revalidate();
+				contentPane.repaint();
 			}
 		});
 		btn_TaoDiem_TK.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -7329,6 +7139,8 @@ public class HomeAdmin extends JFrame {
 		btn_CapNhat_TK = new JButton("Cập nhật");
 		btn_CapNhat_TK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				connect_thongKe.update2();
+				connect_thongKe.update();
 				showData_ThongKe(connect_thongKe.findAll());
 				JOptionPane.showMessageDialog(null, "Đã cập nhật dữ liệu!");
 			}
@@ -7442,34 +7254,34 @@ public class HomeAdmin extends JFrame {
 		txt_Pass_QLTK.setBounds(1144, 337, 191, 27);
 		panel_QuanLiTaiKhoan.add(txt_Pass_QLTK);
 
-		JLabel label1 = new JLabel();
-		btn_Reset_QLTK = new JButton("Reset mật khẩu");
-		btn_Reset_QLTK.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				taiKhoan tk = new taiKhoan();
-				tk.setTenDangNhap(txt_User_QLTK.getText());
-
-				JFrame fr = new JFrame("EXIT");
-				Object[] options = { "Có, chắc chắn", "Không, tôi đã thay đổi ý định", "Hủy bỏ" };
-				int result = JOptionPane.showOptionDialog(fr, "Bạn có chắc reset tài khoản này?", "Xác nhận",
-						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-				if (result == JOptionPane.YES_OPTION) {
-					label1.setText("Bạn chọn: Yes");
-					connect_taiKhoan.Reset(tk);
-					JOptionPane.showMessageDialog(null, "Reset thành công!");
-					showData_QLTK(connect_taiKhoan.findAll());
-				} else if (result == JOptionPane.NO_OPTION) {
-					label1.setText("Bạn chọn : No");
-				} else if (result == JOptionPane.CANCEL_OPTION) {
-					label1.setText("Ban chon cancel");
-				} else {
-					label1.setText("Chưa ");
-				}
-			}
-		});
-		btn_Reset_QLTK.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_Reset_QLTK.setBounds(1048, 486, 154, 37);
-		panel_QuanLiTaiKhoan.add(btn_Reset_QLTK);
+//		JLabel label1 = new JLabel();
+//		btn_Reset_QLTK = new JButton("Reset mật khẩu");
+//		btn_Reset_QLTK.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				taiKhoan tk = new taiKhoan();
+//				tk.setTenDangNhap(txt_User_QLTK.getText());
+//
+//				JFrame fr = new JFrame("EXIT");
+//				Object[] options = { "Có, chắc chắn", "Không, tôi đã thay đổi ý định", "Hủy bỏ" };
+//				int result = JOptionPane.showOptionDialog(fr, "Bạn có chắc reset tài khoản này?", "Xác nhận",
+//						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+//				if (result == JOptionPane.YES_OPTION) {
+//					label1.setText("Bạn chọn: Yes");
+//					connect_taiKhoan.Reset(tk);
+//					JOptionPane.showMessageDialog(null, "Reset thành công!");
+//					showData_QLTK(connect_taiKhoan.findAll());
+//				} else if (result == JOptionPane.NO_OPTION) {
+//					label1.setText("Bạn chọn : No");
+//				} else if (result == JOptionPane.CANCEL_OPTION) {
+//					label1.setText("Ban chon cancel");
+//				} else {
+//					label1.setText("Chưa ");
+//				}
+//			}
+//		});
+//		btn_Reset_QLTK.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		btn_Reset_QLTK.setBounds(1048, 486, 154, 37);
+//		panel_QuanLiTaiKhoan.add(btn_Reset_QLTK);
 
 		btn_HT_QLTK = new JButton("Hủy tìm");
 		btn_HT_QLTK.addActionListener(new ActionListener() {

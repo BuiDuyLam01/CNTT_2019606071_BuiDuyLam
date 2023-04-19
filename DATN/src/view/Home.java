@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import java.awt.Font;
 import java.awt.Image;
@@ -16,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -92,6 +95,14 @@ public class Home extends JFrame {
 		menuBar.add(menuTG);
 		
 		JMenu menuGT = new JMenu("Giới thiệu");
+		menuGT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(null, "CHƯƠNG TRÌNH QUẢN LÍ QUẢN LÝ TUYỂN SINH CỦA TRƯỜNG ĐẠI HỌC VIỆT Á\n\n"
+						+ "Giáo viên hướng dẫn: Ths.Chu Thị Quyên\n\n"
+						+ "Sinh viên thực hiện: Bùi Duy Lẫm\n");
+			}
+		});
 		menuGT.setForeground(Color.BLACK);
 		menuGT.setFont(new Font("Tahoma", Font.BOLD, 14));
 		menuBar.add(menuGT);
@@ -154,7 +165,24 @@ public class Home extends JFrame {
 		panel2_1.add(Logo);
 		
 		JTextArea textArea_2 = new JTextArea();
-		textArea_2.setText("1.1 Đối tượng tuyển sinh\r\n\r\nLà những thí sinh đã tốt nghiệp Trung học phổ thông hoặc tương đương.\r\n\r\n1.2 Phạm vi tuyển sinh\r\n\r\nTuyển sinh trên toàn quốc.\r\n\r\n1.3 Phương thức tuyển sinh\r\n\r\nNăm 2023, Trường Đại học Việt Á tuyển sinh 3600 chỉ tiêu trình độ Đại học chính quy với 47 chuyên ngành đào tạo theo 03 phương thức xét tuyển độc lập:\r\n\r\n- Phương thức 1 (PT1): Xét tuyển dựa trên kết quả Kỳ thi tốt nghiệp Trung học phổ thông năm 2022. Áp dụng cho toàn bộ các chuyên ngành.\r\n\r\n- Phương thức 2 (PT2): Xét tuyển thẳng theo đề án riêng của Trường Đại học Việt Á (Xét tuyển kết hợp) áp dụng cho toàn bộ các chuyên ngành đối với những thí sinh có tổng điểm các môn thi\n\n tốt nghiệp THPT năm 2022 trong tổ hợp môn xét tuyển đạt ngưỡng chất lượng đầu vào theo Quy định của Nhà trường và đáp ứng một trong các tiêu chí sau:\r\n\r\nTiêu chí 1: Có chứng chỉ Tiếng Anh quốc tế IELTS 5.0 hoặc TOEFL 494 ITP hoặc TOEFL 58 iBT hoặc Toeic (L&R) 595 trở lên trong thời hạn (tính đến ngày 30/08/2022).\r\n\r\nTiêu chí 2:  Đạt các giải Nhất, Nhì, Ba các môn thi Toán học, Vật lý, Hóa học, Sinh học, Ngữ văn, Lịch sử, Địa lý, Tin học và Ngoại ngữ trong kỳ thi chọn học sinh giỏi cấp Tỉnh, Thành phố trở lên.\r\n\r\nTiêu chí 3:  Học 03 năm THPT tại các lớp Chuyên: Toán học, Vật Lý, Hóa học, Sinh học, Ngữ văn, Tiếng Anh, Tin học, Khoa học tự nhiên thuộc các trường Chuyên cấp Tỉnh/Thành phố. Có học lực\n\n Khá trở lên và hạnh kiểm Tốt các năm lớp 10, 11, 12.\r\n\r\n- Phương thức 3 (PT3): Xét tuyển dựa trên kết quả học tập và rèn luyện trung học phổ thông (xét Học bạ) với 30% chỉ tiêu. Áp dụng 28 chuyên ngành thuộc nhóm Kỹ thuật & Công nghệ,\n\n 02 chuyên ngành thuộc nhóm Chất lượng cao (Công nghệ thông tin và Điện tự động công nghiệp).");
+		textArea_2.setText("Trường Đại học Việt Á trân trọng thông báo đến các thí sinh về kế hoạch tuyển sinh đại học cho năm 2023 như sau:\r\n\n"
+				+ "1. Đối tượng tuyển sinh: Tất cả các thí sinh đã tốt nghiệp THPT hoặc có bằng tương đương.\r\n\n"
+				+ "2. Phương thức xét tuyển:\r\n\n"
+				+ "- Xét tuyển dựa trên tổng điểm thi các môn học THPT trong khối xét tuyển.\r\n\n"
+				+ "- Thí sinh sẽ được cộng điểm ưu tiên tùy vào từng khu vực theo quy định của Bộ Giáo dục và Đào tạo.\r\n\n"
+				+ "3. Hình thức đăng ký và nộp hồ sơ:\r\n\n"
+				+ "- Đăng ký trực tuyến tại phần mềm tuyển sinh của trường.\r\n\n"
+				+ "- Nộp hồ sơ tại phòng Tuyển sinh - Trường Đại học Việt Á, địa chỉ số 128, đường Hoàng Quốc Việt, quận Cầu Giấy, thành phố Hà Nội.\r\n\n"
+				+ "4. Thời gian đăng ký và nộp hồ sơ:\r\n"
+				+ "- Đăng ký trực tuyến: Từ ngày 1/6/2023 đến ngày 30/6/2023.\r\n\n"
+				+ "- Nộp hồ sơ: Từ ngày 1/6/2023 đến ngày 30/6/2023.\r\n\n"
+				+ "5. Liên hệ:\r\n"
+				+ "- Phòng Tuyển sinh - Trường Đại học Việt Á.\r\n\n"
+				+ "- Địa chỉ: Số 128, đường Hoàng Quốc Việt, quận Cầu Giấy, thành phố Hà Nội.\r\n\n"
+				+ "- Điện thoại: (024) 1234 5678.\r\n\n"
+				+ "Trường Đại học Việt Á kính chúc các thí sinh thành công trong kỳ thi tuyển sinh và chào đón các bạn đến với môi trường học tập chuyên nghiệp của trường chúng tôi.\r\n"
+				+ "\r\n"
+				+ "");
 		textArea_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textArea_2.setBounds(52, 73, 1360, 558);
 		panel2_1.add(textArea_2);
@@ -267,10 +295,10 @@ public class Home extends JFrame {
 		table2_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_1_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
+				{"Công nghệ thông tin", 23},
+				{"Khoa học máy tinh", 20},
+				{"Hệ thống thông tin", 21},
+				{"Kỹ thuật phần mềm", 22},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "D\u1EF1 b\u00E1o \u0111i\u1EC3m"
@@ -291,10 +319,10 @@ public class Home extends JFrame {
 		table2_2_1_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_1_3.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
+				{"Kỹ thuật cơ khí", 20.5},
+				{"Kỹ thuật ô tô", 22.5},
+				{"Khoa học hàng hải", 24},
+				{"Cơ điện tử", 19},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "D\u1EF1 b\u00E1o \u0111i\u1EC3m"
@@ -315,10 +343,10 @@ public class Home extends JFrame {
 		table2_2_1_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_1_2.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
+				{"Học sư phạm", 19},
+				{"Giáo dục trẻ em", 21.5},
+				{"Giáo dục người lớn", 22.5},
+				{"Quản lí giáo dục", 18},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "D\u1EF1 b\u00E1o \u0111i\u1EC3m"
@@ -332,17 +360,17 @@ public class Home extends JFrame {
 		
 		JLabel lblNewLabel_4 = new JLabel("Khoa kinh doanh và quản lí");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(745, 190, 194, 33);
+		lblNewLabel_4.setBounds(745, 190, 218, 33);
 		panel2_2_1.add(lblNewLabel_4);
 		
 		table2_2_1_4 = new JTable();
 		table2_2_1_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_1_4.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
+				{"Thương mại điện tử", 22},
+				{"Kế toán", 24},
+				{"Quản lí chất lượng", 25},
+				{"Marketing", 21.25},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "D\u1EF1 b\u00E1o \u0111i\u1EC3m"
@@ -369,10 +397,10 @@ public class Home extends JFrame {
 		table2_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_2_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Công nghệ thông tin", 23},
-				{"Khoa học máy tinh", 20},
-				{"Hệ thống thông tin", 21},
-				{"Kỹ thuật phần mềm", 22},
+				{"Công nghệ thông tin", 23.75},
+				{"Khoa học máy tinh", 20.5},
+				{"Hệ thống thông tin", 24},
+				{"Kỹ thuật phần mềm", 19},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "\u0110i\u1EC3m chu\u1EA9n"
@@ -394,8 +422,8 @@ public class Home extends JFrame {
 		table2_2_2_2.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"Học sư phạm", 20},
-				{"Giáo dục trẻ em", 21},
-				{"Giáo dục người lớn", 20.5},
+				{"Giáo dục trẻ em", 22},
+				{"Giáo dục người lớn", 24.5},
 				{"Quản lí giáo dục", 19},
 			},
 			new String[] {
@@ -417,10 +445,10 @@ public class Home extends JFrame {
 		table2_2_2_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_2_3.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Kỹ thuật cơ khí", 21},
-				{"Kỹ thuật ô tô", 22},
-				{"Khoa học hàng hải", 23},
-				{"Cơ điện tử", 20},
+				{"Kỹ thuật cơ khí", 23},
+				{"Kỹ thuật ô tô", 22.25},
+				{"Khoa học hàng hải", 23.5},
+				{"Cơ điện tử", 20.75},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "Điểm chuẩn"
@@ -441,9 +469,9 @@ public class Home extends JFrame {
 		table2_2_2_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_2_4.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Thương mại điện tử", 20},
-				{"Kế toán", 20},
-				{"Quản lí chất lượng", 21},
+				{"Thương mại điện tử", 20.75},
+				{"Kế toán", 20.5},
+				{"Quản lí chất lượng", 21.5},
 				{"Marketing", 21},
 			},
 			new String[] {
@@ -471,10 +499,10 @@ public class Home extends JFrame {
 		table2_2_3_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_3_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Công nghệ thông tin", 23},
-				{"Khoa học máy tinh", 20},
-				{"Hệ thống thông tin", 21},
-				{"Kỹ thuật phần mềm", 22},
+				{"Công nghệ thông tin", 22},
+				{"Khoa học máy tinh", 23},
+				{"Hệ thống thông tin", 24},
+				{"Kỹ thuật phần mềm", 22.5},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "Điểm chuẩn"
@@ -495,9 +523,9 @@ public class Home extends JFrame {
 		table2_2_3_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_3_3.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Kỹ thuật cơ khí", 21},
-				{"Kỹ thuật ô tô", 22},
-				{"Khoa học hàng hải", 23},
+				{"Kỹ thuật cơ khí", 21.5},
+				{"Kỹ thuật ô tô", 21},
+				{"Khoa học hàng hải", 20.75},
 				{"Cơ điện tử", 20},
 			},
 			new String[] {
@@ -519,10 +547,10 @@ public class Home extends JFrame {
 		table2_2_3_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table2_2_3_2.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"Học sư phạm", 20},
+				{"Học sư phạm", 23},
 				{"Giáo dục trẻ em", 21},
-				{"Giáo dục người lớn", 20.5},
-				{"Quản lí giáo dục", 19},
+				{"Giáo dục người lớn", 20.75},
+				{"Quản lí giáo dục", 19.5},
 			},
 			new String[] {
 				"Ng\u00E0nh x\u00E9t tuy\u1EC3n", "Điểm chuẩn"

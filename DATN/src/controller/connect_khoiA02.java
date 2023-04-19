@@ -52,9 +52,6 @@ public class connect_khoiA02 {
 	}
 	
 	public static void insert(khoiA02 ts) {
-		String query = "INSERT INTO thisinh (MaThiSinh, NamSinh, GioiTinh, DiemUuTien, DiemHocBa)"
-				+ "SELECT ?, ?, ?, ?, ?"
-				+ "WHERE NOT EXISTS(SELECT * FROM thisinh WHERE MaThiSinh = '"+ ts.getMaThiSinh() +"')";
 		
 		String query1 = "INSERT INTO `quanlithisinh`.`khoi_a02` (`MaThiSinh`, `MaKhoi`, `Toan`, `Hoa`, `Su`, `TongDiem`) VALUES (?, ?, ?, ?, ?, ?);";
 		
@@ -62,15 +59,8 @@ public class connect_khoiA02 {
 
 		try {
 			Connection connection = getConnection();
-			PreparedStatement pstmt = connection.prepareStatement(query);
 			PreparedStatement pstmt1 = connection.prepareStatement(query1);
 			PreparedStatement pstmt2 = connection.prepareStatement(query2);
-
-			pstmt.setString(1, ts.getMaThiSinh());
-			pstmt.setInt(2, ts.getNamSinh());
-			pstmt.setInt(3, ts.getGioiTinh());
-			pstmt.setFloat(4, ts.getUuTien());
-			pstmt.setFloat(5, ts.getDiemHocBa());
 			
 			pstmt1.setString(1, ts.getMaThiSinh());
 			pstmt1.setString(2, "A02");
@@ -81,7 +71,6 @@ public class connect_khoiA02 {
 			
 			pstmt2.setFloat(1, ts.getTongdiem());
 			
-			pstmt.execute();
 			pstmt1.execute();
 			pstmt2.execute();
 		} catch (Exception e) {

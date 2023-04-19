@@ -4,7 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,18 +63,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_CNTT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_CNTT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"CNTT\"\r\n"
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'CNTT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -89,29 +88,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_CNTT(int top1, int top2) throws IOException {
+	public static void XuatFile_CNTT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"CNTT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'CNTT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,18 +161,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_KHMT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_KHMT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KHMT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KHMT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -195,29 +186,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_KHMT(int top1, int top2) throws IOException {
+	public static void XuatFile_KHMT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KHMT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KHMT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -273,18 +259,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_HTTT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_HTTT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"HTTT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'HTTT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -301,29 +284,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_HTTT(int top1, int top2) throws IOException {
+	public static void XuatFile_HTTT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"HTTT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'HTTT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -379,18 +357,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_KTPM(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_KTPM(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KTPM\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KTPM'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -407,29 +382,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_KTPM(int top1, int top2) throws IOException {
+	public static void XuatFile_KTPM(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KTPM\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KTPM'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -485,18 +455,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_HSP(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_HSP(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"HSP\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'HSP'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -513,29 +480,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_HSP(int top1, int top2) throws IOException {
+	public static void XuatFile_HSP(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"HSP\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'HSP'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -591,18 +553,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_GDTE(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_GDTE(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"GDTE\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'GDTE'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -619,29 +578,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_GDTE(int top1, int top2) throws IOException {
+	public static void XuatFile_GDTE(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"GDTE\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'GDTE'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -697,18 +651,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_GDNL(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_GDNL(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"GDNL\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'GDNL'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -725,29 +676,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_GDNL(int top1, int top2) throws IOException {
+	public static void XuatFile_GDNL(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"GDNL\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'GDNL'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -803,18 +749,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_QLGD(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_QLGD(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"QLGD\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'QLGD'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -831,29 +774,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_QLGD(int top1, int top2) throws IOException {
+	public static void XuatFile_QLGD(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"QLGD\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'QLGD'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -909,18 +847,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_KTCK(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_KTCK(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KTCK\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KTCK'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -937,29 +872,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_KTCK(int top1, int top2) throws IOException {
+	public static void XuatFile_KTCK(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KTCK\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KTCK'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1015,18 +945,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_KTOT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_KTOT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KTOT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KTOT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1043,29 +970,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_KTOT(int top1, int top2) throws IOException {
+	public static void XuatFile_KTOT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KTOT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KTOT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1121,18 +1043,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_KHHH(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_KHHH(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KHHH\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KHHH'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1149,29 +1068,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_KHHH(int top1, int top2) throws IOException {
+	public static void XuatFile_KHHH(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KHHH\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KHHH'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1227,18 +1141,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_CDT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_CDT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"CDT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'CDT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1255,29 +1166,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_CDT(int top1, int top2) throws IOException {
+	public static void XuatFile_CDT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"CDT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'CDT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1333,18 +1239,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_TMDT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_TMDT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"TMDT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'TMDT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1361,29 +1264,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_TMDT(int top1, int top2) throws IOException {
+	public static void XuatFile_TMDT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"TMDT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'TMDT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1439,18 +1337,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_KT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_KT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1467,19 +1362,16 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_KT(int top1, int top2) throws IOException {
+	public static void XuatFile_KT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"KT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'KT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1545,18 +1437,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_QLCL(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_QLCL(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"QLCL\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'QLCL'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1573,29 +1462,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_QLCL(int top1, int top2) throws IOException {
+	public static void XuatFile_QLCL(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"QLCL\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'QLCL'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1651,18 +1535,15 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static List<thiSinh> TrungTuyen_MKT(int top1, int top2) {
+	public static List<thiSinh> TrungTuyen_MKT(int top1) {
 		List<thiSinh> dstk = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"MKT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'MKT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
@@ -1679,29 +1560,24 @@ public class connect_thiSinh {
 		return dstk;
 	}
 
-	public static void XuatFile_MKT(int top1, int top2) throws IOException {
+	public static void XuatFile_MKT(int top1) throws IOException {
 
 		List<thiSinh> ds = new ArrayList<>();
 
-		String query = "SELECT DISTINCT ts.MaThiSinh, tk.HoVaTen, ts.GioiTinh, ts.NamSinh, kt.TongDiem, ts.DiemHocBa\r\n"
-				+ "FROM taikhoan tk\r\n" + "JOIN thisinh ts ON tk.MaThiSinh = ts.MaThiSinh\r\n"
-				+ "JOIN khoithi kt ON ts.MaThiSinh = kt.MaThiSinh\r\n" + "WHERE kt.MaNganh = \"MKT\""
-				+ "AND kt.TongDiem >= (SELECT DISTINCT TongDiem FROM khoithi ORDER BY TongDiem DESC LIMIT " + top1
-				+ ",1)\r\n"
-				+ "   OR (ts.DiemHocBa >= (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top2
-				+ ",1) AND\r\n"
-				+ "       ts.DiemHocBa < (SELECT DISTINCT DiemHocBa FROM thisinh ORDER BY DiemHocBa DESC LIMIT " + top1
-				+ ",1))\r\n" + "ORDER BY kt.TongDiem DESC, ts.DiemHocBa DESC\r\n" + "LIMIT " + (top1 + top2) + ";";
+		String query = "SELECT DISTINCT thisinh.MaThiSinh, taikhoan.HoVaTen, thisinh.GioiTinh, thisinh.NamSinh, MAX(khoithi.TongDiem) AS TongDiem, MAX(thisinh.DiemHocBa) AS DiemHocBa\r\n"
+				+ "FROM khoithi, thisinh, taikhoan\r\n"
+				+ "WHERE khoithi.MaThiSinh = taikhoan.MaThiSinh AND taikhoan.MaThiSinh = thisinh.MaThiSinh AND MaNganh = 'MKT'\r\n"
+				+ "GROUP BY thisinh.MaThiSinh\r\n"
+				+ "ORDER BY TongDiem DESC, DiemHocBa DESC\r\n"
+				+ "LIMIT " + top1 + " ;";
 		try {
 			Connection connection = getConnection();
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				while (rs.next()) {
-					thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
-							rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
-					ds.add(tk);
-				}
+				thiSinh tk = new thiSinh(rs.getString("MaThiSinh"), rs.getString("HoVaTen"), rs.getInt("GioiTinh"),
+						rs.getInt("NamSinh"), rs.getFloat("TongDiem"), rs.getFloat("DiemHocBa"));
+				ds.add(tk);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1731,6 +1607,28 @@ public class connect_thiSinh {
 		workbook.write(fileOut);
 		fileOut.close();
 		workbook.close();
+	}
+
+	public static boolean kiemTraDangKy(String s) {
+		String query = "SELECT COUNT(*) as count FROM khoithi WHERE mathisinh = '"+ s +"'";
+		try {
+			Connection connection = getConnection();
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if (rs.next()) {
+				int count = rs.getInt("count");
+				if (count > 0) {
+					System.out.println("That bai");
+					return true;
+				} else {
+					System.out.println("Thanh cong");
+					return false;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }
